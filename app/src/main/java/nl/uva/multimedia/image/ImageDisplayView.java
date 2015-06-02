@@ -61,21 +61,33 @@ public class ImageDisplayView extends View implements ImageListener {
         /* If there is an image to be drawn: */
         if (this.currentImage != null) {
             int pixels = this.imageWidth * this.imageHeight;
-            int[] pixelsGreen = new int[pixels];
-            int greenTotal = 0;
-            int greenMedian, greenMean;
 
+            int[] pixelsGreen = new int[pixels];
+            int greenTotal = 0, greenMedian, greenMean;
+            int deviationsTotal = 0, variance;
+            double standardDeviation;
+
+            // Maak een array van de groen intensiteit per pixel
             for (int i = 0; i < pixels; i++) {
                 pixelsGreen[i] = (this.currentImage[i]>>8)&0xFF;
                 greenTotal += pixelsGreen[i];
             }
 
+            // Sorteer array en bereken de median
             Arrays.sort(pixelsGreen);
-
             greenMedian = pixelsGreen[pixels / 2];
+
             greenMean = greenTotal / pixels;
 
-            Log.i("ImageInfo", "Median: " + Integer.toString(greenMedian) + ", Mean: " + Integer.toString(greenMean));
+            for (int i = 0; i < pixels; i++) {
+                deviationsTotal += Math.pow(pixelsGreen[i] - greenMean, 2);
+            }
+
+            standardDeviation = Math.sqrt(deviationsTotal / pixels);
+
+            Log.i("ImageInfo", "Median: " + Integer.toString(greenMedian) +
+                    ", Mean: " + Integer.toString(greenMean) +
+                    ", Standard deviation: " + Double.toString(standardDeviation));
 
             /* Center the image... */
             int left = (this.getWidth() - this.imageWidth) / 2;
