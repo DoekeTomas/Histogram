@@ -61,21 +61,45 @@ public class ImageDisplayView extends View implements ImageListener {
         /* If there is an image to be drawn: */
         if (this.currentImage != null) {
             int pixels = this.imageWidth * this.imageHeight;
-            int[] pixelsGreen = new int[pixels];
-            int greenTotal = 0;
-            int greenMedian, greenMean;
 
+            int[][] pixelsColor  = new int[3][pixels];
+            int[] totalColor     = new int[3];
+            int[] mean           = new int[3];
+            int[] deviations     = new int[3];
+            int[] deviationsTotal= new int[3];
+
+            // Maak een array van de groen intensiteit per pixel
             for (int i = 0; i < pixels; i++) {
-                pixelsGreen[i] = (this.currentImage[i]>>8)&0xFF;
-                greenTotal += pixelsGreen[i];
+                pixelsColor[0][i] = Color.red(this.currentImage[i]);
+                pixelsColor[1][i] = Color.green(this.currentImage[i]);
+                pixelsColor[2][i] = Color.blue(this.currentImage[i]);
+
+                totalColor[0] = totalColor[0] + pixelsColor[0][i];
+                totalColor[1] = totalColor[1] + pixelsColor[1][i];
+                totalColor[2] = totalColor[2] + pixelsColor[2][i];
+
+                deviations
             }
 
-            Arrays.sort(pixelsGreen);
+            mean[0] = totalColor[0] / pixels;
+            mean[1] = totalColor[1] / pixels;
+            mean[2] = totalColor[2] / pixels;
 
-            greenMedian = pixelsGreen[pixels / 2];
-            greenMean = greenTotal / pixels;
 
-            Log.i("ImageInfo", "Median: " + Integer.toString(greenMedian) + ", Mean: " + Integer.toString(greenMean));
+            // Sorteer array en bereken de median
+            /*
+             Arrays.sort(pixelsGreen);
+            greenMedian = pixelsGreen[pixels / 2]; 
+
+            for (int i = 0; i < pixels; i++) {
+                deviationsTotal += Math.pow(pixelsGreen[i] - greenMean, 2);
+            }
+
+            standardDeviation = Math.sqrt(deviationsTotal / pixels);
+
+            Log.i("ImageInfo", "Median_Rood: " + Integer.toString(greenMedian) +
+                    ", Mean: " + Integer.toString(greenMean) +
+                    ", Standard deviation: " + Double.toString(standardDeviation)); */
 
             /* Center the image... */
             int left = (this.getWidth() - this.imageWidth) / 2;
