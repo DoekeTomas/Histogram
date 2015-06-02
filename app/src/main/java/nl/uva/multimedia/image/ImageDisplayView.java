@@ -62,45 +62,65 @@ public class ImageDisplayView extends View implements ImageListener {
         if (this.currentImage != null) {
             int pixels = this.imageWidth * this.imageHeight;
 
-            int[][] pixelsColor  = new int[3][pixels];
-            int[] totalColor     = new int[3];
-            int[] mean           = new int[3];
-            int[] deviations     = new int[3];
-            int[] deviationsTotal= new int[3];
+            String[] colors    = new String[3];
+            colors[0] = "Red";
+            colors[1] = "Green";
+            colors[2] = "Blue";
+
+            int[] greenColor   = new int[pixels];
+            int[] blueColor    = new int[pixels];
+            int[] redColor     = new int[pixels];
+
+            int[] totalColor        = new int[3];
+            int[] mean              = new int[3];
+            int[] median            = new int[3];
+            int[] deviationsTotal   = new int[3];
+            double[] deviation    = new double[3];
 
 
             // Maak een array van de groen intensiteit per pixel
             for (int i = 0; i < pixels; i++) {
-                pixelsColor[0][i] = Color.red(this.currentImage[i]);
-                pixelsColor[1][i] = Color.green(this.currentImage[i]);
-                pixelsColor[2][i] = Color.blue(this.currentImage[i]);
+                redColor[i]     = Color.red(this.currentImage[i]);
+                greenColor[i]   = Color.green(this.currentImage[i]);
+                blueColor[i]    = Color.blue(this.currentImage[i]);
 
-                totalColor[0] = totalColor[0] + pixelsColor[0][i];
-                totalColor[1] = totalColor[1] + pixelsColor[1][i];
-                totalColor[2] = totalColor[2] + pixelsColor[2][i];
-
-                deviations
+                totalColor[0] = totalColor[0] + redColor[i];
+                totalColor[1] = totalColor[1] + greenColor[i];
+                totalColor[2] = totalColor[2] + blueColor[i];
             }
 
+            /* Mean berekenen */
             mean[0] = totalColor[0] / pixels;
             mean[1] = totalColor[1] / pixels;
             mean[2] = totalColor[2] / pixels;
 
+            /* Arrays sorteren & mediaan berekenen */
 
-            // Sorteer array en bereken de median
-            /*
-             Arrays.sort(pixelsGreen);
-            greenMedian = pixelsGreen[pixels / 2]; 
+            Arrays.sort(redColor);
+            Arrays.sort(greenColor);
+            Arrays.sort(blueColor);
+
+            median[0] = redColor[pixels / 2];
+            median[1] = greenColor[pixels / 2];
+            median[2] = blueColor[pixels / 2];
+
+            /* Standaard afwijking berekenen */
 
             for (int i = 0; i < pixels; i++) {
-                deviationsTotal += Math.pow(pixelsGreen[i] - greenMean, 2);
+                deviationsTotal[0] += Math.pow(redColor[i] - mean[0], 2);
+                deviationsTotal[1] += Math.pow(greenColor[i] - mean[1], 2);
+                deviationsTotal[2] += Math.pow(blueColor[i] - mean[2], 2);
             }
 
-            standardDeviation = Math.sqrt(deviationsTotal / pixels);
+            deviation[0] = Math.sqrt(deviationsTotal[0] / pixels);
+            deviation[1] = Math.sqrt(deviationsTotal[1] / pixels);
+            deviation[2] = Math.sqrt(deviationsTotal[2] / pixels);
 
-            Log.i("ImageInfo", "Median_Rood: " + Integer.toString(greenMedian) +
-                    ", Mean: " + Integer.toString(greenMean) +
-                    ", Standard deviation: " + Double.toString(standardDeviation)); */
+           for (int i = 0; i < 3; i++) {
+               Log.i(colors[i], "Median " + Integer.toString(median[i]) +
+                       ", Mean: " + Integer.toString(mean[i]) +
+                       ", Standard deviation: " + Double.toString(deviation[i]));
+           }
 
 
             /* Center the image... */
