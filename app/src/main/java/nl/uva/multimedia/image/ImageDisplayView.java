@@ -9,8 +9,13 @@ package nl.uva.multimedia.image;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.nfc.Tag;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+
+import java.util.Arrays;
 
 /*
  * This is a View that displays incoming images.
@@ -55,6 +60,23 @@ public class ImageDisplayView extends View implements ImageListener {
 
         /* If there is an image to be drawn: */
         if (this.currentImage != null) {
+            int pixels = this.imageWidth * this.imageHeight;
+            int[] pixelsGreen = new int[pixels];
+            int greenTotal = 0;
+            int greenMedian, greenMean;
+
+            for (int i = 0; i < pixels; i++) {
+                pixelsGreen[i] = (this.currentImage[i]>>8)&0xFF;
+                greenTotal += pixelsGreen[i];
+            }
+
+            Arrays.sort(pixelsGreen);
+
+            greenMedian = pixelsGreen[pixels / 2];
+            greenMean = greenTotal / pixels;
+
+            Log.i("ImageInfo", "Median: " + Integer.toString(greenMedian) + ", Mean: " + Integer.toString(greenMean));
+
             /* Center the image... */
             int left = (this.getWidth() - this.imageWidth) / 2;
             int top = (this.getHeight() - this.imageHeight) / 2;
