@@ -56,7 +56,7 @@ public class ImageDisplayView extends View implements ImageListener {
         super.onDraw(canvas);
 
         // TODO: Hier wordt een afbeelding op het scherm laten zien!
-        // Je zou hier dus code kunnen plaatsen om iets anders weer te geven.
+        // Je zou hier dus code kunnen plaatsen om iets anders weer te geven. test
 
         /* If there is an image to be drawn: */
         if (this.currentImage != null) {
