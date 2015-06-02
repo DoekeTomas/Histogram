@@ -68,6 +68,7 @@ public class ImageDisplayView extends View implements ImageListener {
             int[] deviations     = new int[3];
             int[] deviationsTotal= new int[3];
 
+
             // Maak een array van de groen intensiteit per pixel
             for (int i = 0; i < pixels; i++) {
                 pixelsColor[0][i] = Color.red(this.currentImage[i]);
@@ -100,6 +101,7 @@ public class ImageDisplayView extends View implements ImageListener {
             Log.i("ImageInfo", "Median_Rood: " + Integer.toString(greenMedian) +
                     ", Mean: " + Integer.toString(greenMean) +
                     ", Standard deviation: " + Double.toString(standardDeviation)); */
+
 
             /* Center the image... */
             int left = (this.getWidth() - this.imageWidth) / 2;

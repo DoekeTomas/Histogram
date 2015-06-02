@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
@@ -51,29 +53,51 @@ public class ImageActivity extends Activity {
 
         Spinner sourceSpinner = (Spinner)this.findViewById(R.id.source_spinner);
 
+        SeekBar seekBar = (SeekBar)this.findViewById(R.id.seekBar);
+        final TextView textBins = (TextView)this.findViewById(R.id.textBins);
+
+        seekBar.setOnSeekBarChangeListener (
+                new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                        textBins.setText("Number of bins: " + Integer.toString(i));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+
         /* Switching between sources: */
         sourceSpinner.setOnItemSelectedListener(
-            new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case SOURCE_BACK_CAMERA:
-                        ImageActivity.this.cis.switchTo(CameraImageSource.BACK_CAMERA);
-                        ImageActivity.this.switchToCamera();
-                        break;
-                    case SOURCE_FRONT_CAMERA:
-                        ImageActivity.this.cis.switchTo(CameraImageSource.FRONT_CAMERA);
-                        ImageActivity.this.switchToCamera();
-                        break;
-                    case SOURCE_IMAGE:
-                        ImageActivity.this.switchToImage();
-                        break;
-                }
-            }
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        switch (position) {
+                            case SOURCE_BACK_CAMERA:
+                                ImageActivity.this.cis.switchTo(CameraImageSource.BACK_CAMERA);
+                                ImageActivity.this.switchToCamera();
+                                break;
+                            case SOURCE_FRONT_CAMERA:
+                                ImageActivity.this.cis.switchTo(CameraImageSource.FRONT_CAMERA);
+                                ImageActivity.this.switchToCamera();
+                                break;
+                            case SOURCE_IMAGE:
+                                ImageActivity.this.switchToImage();
+                                break;
+                        }
+                    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
 
         /* Freeze switch: */
         ((CompoundButton)findViewById(R.id.freeze_toggle)).setOnCheckedChangeListener(
