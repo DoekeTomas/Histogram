@@ -37,6 +37,8 @@ public class ImageActivity extends Activity {
     private CameraImageSource cis;
     private FileImageSource fis;
 
+    public static int binsNr = 10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO: Dit is het "beginpunt" van de applicatie!
@@ -54,18 +56,28 @@ public class ImageActivity extends Activity {
         Spinner sourceSpinner = (Spinner)this.findViewById(R.id.source_spinner);
 
         SeekBar seekBar = (SeekBar)this.findViewById(R.id.seekBar);
+        seekBar.setProgress(10);
+
         final TextView textBins = (TextView)this.findViewById(R.id.textBins);
+
+        /*
+        final TextView textValues = (TextView)this.findViewById(R.id.textValues);
+        textValues.setText("Median: " + median[1] +
+                ", Mean: " + mean[1] +
+                ", Standard deviation: " + deviation[1]);
+        */
 
         seekBar.setOnSeekBarChangeListener (
                 new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                        binsNr = i;
                         textBins.setText("Number of bins: " + Integer.toString(i));
                     }
 
                     @Override
                     public void onStartTrackingTouch(SeekBar seekBar) {
-                        
+
                     }
 
                     @Override

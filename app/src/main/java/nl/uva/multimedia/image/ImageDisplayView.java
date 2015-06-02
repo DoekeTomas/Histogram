@@ -10,12 +10,17 @@ package nl.uva.multimedia.image;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.nfc.Tag;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.Arrays;
+
+import nl.uva.multimedia.ImageActivity;
+import nl.uva.multimedia.R;
 
 /*
  * This is a View that displays incoming images.
@@ -67,9 +72,9 @@ public class ImageDisplayView extends View implements ImageListener {
             colors[1] = "Green";
             colors[2] = "Blue";
 
+            int[] redColor     = new int[pixels];
             int[] greenColor   = new int[pixels];
             int[] blueColor    = new int[pixels];
-            int[] redColor     = new int[pixels];
 
             int[] totalColor        = new int[3];
             int[] mean              = new int[3];
@@ -116,20 +121,50 @@ public class ImageDisplayView extends View implements ImageListener {
             deviation[1] = Math.sqrt(deviationsTotal[1] / pixels);
             deviation[2] = Math.sqrt(deviationsTotal[2] / pixels);
 
-           for (int i = 0; i < 3; i++) {
-               Log.i(colors[i], "Median " + Integer.toString(median[i]) +
-                       ", Mean: " + Integer.toString(mean[i]) +
-                       ", Standard deviation: " + Double.toString(deviation[i]));
-           }
-
-
             /* Center the image... */
-            int left = (this.getWidth() - this.imageWidth) / 2;
-            int top = (this.getHeight() - this.imageHeight) / 2;
+            int left = this.getWidth() / 2;
+            int top = this.getHeight() / 2;
 
-            /* ...and draw it. */
-            canvas.drawBitmap(this.currentImage, 0, this.imageWidth, left, top, this.imageWidth,
-                    this.imageHeight, true, null);
+            Paint paint = new Paint();
+            paint.setColor(Color.BLACK);
+            paint.setStrokeWidth(3);
+            paint.setTextSize(50);
+
+            canvas.drawLine(left - 350, top - 350, left - 350, top + 350, paint);
+            canvas.drawLine(left - 350, top + 350, left + 350, top + 350, paint);
+
+            canvas.drawText("0", left - 400, top + 400, paint);
+            canvas.drawText("255", left + 370, top + 400, paint);
+
+            int binsNr = ImageActivity.binsNr;
+            int[] bins = new int[binsNr];
+            double binSize = 255 / binsNr;
+            float binWidth = 700 / binsNr;
+
+            int nr = 0;
+            for (int i = 0; i < binsNr; i++) {
+                while (nr < pixels && greenColor[nr] <= i * binSize) {
+                    bins[i]++;
+                    nr++;
+                }
+            }
+
+            int maxValueBin = 0;
+            for (int i = 0; i < binsNr; i++) {
+                if (bins[i] > maxValueBin) {
+                    maxValueBin = bins[i];
+                }
+            }
+
+            double binHeight = 700.0 / maxValueBin;
+
+            for (int i = 0; i < binsNr; i++) {
+                paint.setColor(Color.GREEN);
+                paint.setStrokeWidth(0);
+                canvas.drawRect((left - 350) + (i * binWidth), (float)((top + 350) - (bins[i] * binHeight)),
+                                (left - 350) + ((i+1) * binWidth), top + 350, paint);
+            }
+
         }
     }
 
