@@ -15,4 +15,7 @@
     <string name="play_icon">▶</string>
     <string name="pause_icon">❘❘</string>
     <string name="rewind_icon">◀◀</string>
+    <string name="Red">Red</string>
+    <string name="Green">Green</string>
+    <string name="Blue">Blue</string>
 </resources>
