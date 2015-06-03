@@ -87,25 +87,21 @@ public class ImageDisplayView extends View implements ImageListener {
             }
 
             /* Arrays sorteren   */
-
             Arrays.sort(redColor);
             Arrays.sort(greenColor);
             Arrays.sort(blueColor);
 
             /* Gemiddelde berekenen */
-
             for (int i = 0; i < 3; i++) {
                 mean[i] = totalColor[i] / pixels;
             }
 
             /* Mediaan berekenen */
-
             median[0] = redColor[pixels / 2];
             median[1] = greenColor[pixels / 2];
             median[2] = blueColor[pixels / 2];
 
             /* Standaard afwijking berekenen */
-
             for (int i = 0; i < pixels; i++) {
                 deviationsTotal[0] += Math.pow(redColor[i] - mean[0], 2);
                 deviationsTotal[1] += Math.pow(greenColor[i] - mean[1], 2);
@@ -116,7 +112,10 @@ public class ImageDisplayView extends View implements ImageListener {
                 deviation[i] = Math.sqrt(deviationsTotal[i] / pixels);
             }
 
-            /* Center the image... */
+            /* Bereken de hoekpunten van de histogram zodat op elk device
+             * de volledige canvas wordt gebruikt voor het tekenen van de
+             * grafiek
+             */
             int left = 100;
             int top = 200;
             int right = this.getWidth() - 100;
@@ -172,6 +171,7 @@ public class ImageDisplayView extends View implements ImageListener {
             double binSize = 255 / binsNr;
             float binWidth = (right - left) / binsNr;
 
+            /* Tel per bin hoeveel pixels er in de bin zitten */
             int nr = 0;
             for (int i = 0; i < binsNr; i++) {
                 while (nr < pixels && graphColor[nr] <= i * binSize) {
@@ -189,6 +189,7 @@ public class ImageDisplayView extends View implements ImageListener {
 
             }
 
+            /* Hoogte die per pixel wordt toegevoegd aan de staaf */
             double binHeight = (double)(bottom - top) / maxValueBin;
 
             /* Zet kleur van de staven */

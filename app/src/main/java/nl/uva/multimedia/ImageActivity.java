@@ -38,15 +38,12 @@ public class ImageActivity extends Activity {
     private CameraImageSource cis;
     private FileImageSource fis;
 
+    /* Globale variabelen */
     public static int binsNr = 10;
     public static int colorNr = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO: Dit is het "beginpunt" van de applicatie!
-        // Als je vanaf hier de code stap voor stap doorloopt zul je alles tegen moeten komen.
-        // De layout is gedefiniëerd in res/layout/activity_image.xml, dit wordt ingesteld via
-        // this.setContentView() hieronder.
 
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_image);
@@ -67,18 +64,24 @@ public class ImageActivity extends Activity {
 
         seekBar.setOnSeekBarChangeListener (
                 new SeekBar.OnSeekBarChangeListener() {
+
+                    /* Check of slider is veranderd */
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
+                        /* Zet het aantal bins gelijk aan de slider waarde */
                         if (i >= minimumBins) {
                             binsNr = i;
                             textBins.setText("Number of bins: " + Integer.toString(i));
                         }
+
+                        /* Zet het aantal bins op 3 als slider waarde te klein wordt */
                         else {
                             binsNr = 3;
                             textBins.setText("Number of bins: 3");
                         }
 
+                        /* Roep ImageDisplayView.onDraw(Canvas canvas) aan */
                         imageView.invalidate();
                     }
 
@@ -143,6 +146,7 @@ public class ImageActivity extends Activity {
         sourceSpinner.setSelection(SOURCE_BACK_CAMERA);
     }
 
+    /* Check welke kleur is geselecteerd */
     public void onColorButtonClicked(View button) {
         final ImageDisplayView imageView = (ImageDisplayView)findViewById(R.id.display_view);
 
@@ -160,12 +164,11 @@ public class ImageActivity extends Activity {
                 break;
         }
 
+        /* Roep ImageDisplayView.onDraw(Canvas canvas) aan */
         imageView.invalidate();
     }
 
     private void switchToCamera() {
-        // TODO: Onder andere hier wordt een ImageSource aan een View (ter weergave) gekoppeld.
-        // Als je nog iets tussen de twee in zou willen plaatsen, is dit dus het moment!
 
         /* Set camera as active source: */
         ImageDisplayView idv = (ImageDisplayView)findViewById(R.id.display_view);
