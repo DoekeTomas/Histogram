@@ -11,11 +11,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.nfc.Tag;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.Arrays;
 
@@ -60,17 +58,9 @@ public class ImageDisplayView extends View implements ImageListener {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // TODO: Hier wordt een afbeelding op het scherm laten zien!
-        // Je zou hier dus code kunnen plaatsen om iets anders weer te geven.
-
         /* If there is an image to be drawn: */
         if (this.currentImage != null) {
             int pixels = this.imageWidth * this.imageHeight;
-
-            String[] colorNames= new String[3];
-            colorNames[0] = "RED";
-            colorNames[1] = "GREEN";
-            colorNames[2] = "BLUE";
 
             int[] redColor     = new int[pixels];
             int[] greenColor   = new int[pixels];
