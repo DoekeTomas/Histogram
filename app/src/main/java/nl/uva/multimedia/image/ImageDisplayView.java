@@ -62,10 +62,12 @@ public class ImageDisplayView extends View implements ImageListener {
         if (this.currentImage != null) {
             int pixels = this.imageWidth * this.imageHeight;
 
+            /* Arrays voor rood, groen en blauwe pixels */
             int[] redColor     = new int[pixels];
             int[] greenColor   = new int[pixels];
             int[] blueColor    = new int[pixels];
 
+            /* Arrays voor resultaten van berekeningen */
             int[] totalColor        = new int[3];
             int[] mean              = new int[3];
             int[] median            = new int[3];
@@ -90,7 +92,7 @@ public class ImageDisplayView extends View implements ImageListener {
             Arrays.sort(greenColor);
             Arrays.sort(blueColor);
 
-            /* Mean  berekenen */
+            /* Gemiddelde berekenen */
 
             for (int i = 0; i < 3; i++) {
                 mean[i] = totalColor[i] / pixels;
@@ -125,11 +127,22 @@ public class ImageDisplayView extends View implements ImageListener {
             paint.setStrokeWidth(3);
             paint.setTextSize(40);
 
+            /* x- & y-as tekenen */
             canvas.drawLine(left, top, left, bottom, paint);
             canvas.drawLine(left, bottom, right, bottom, paint);
 
+            /* Legenda schrijven */
+            paint.setColor(Color.GRAY);
+            canvas.drawText("intensity", right - 200, bottom + 50, paint);
+            canvas.save();
+            canvas.rotate(-90, left - 30, top + 350);
+            canvas.drawText("amount of pixels", left - 30, top + 350, paint);
+            canvas.restore();
+
             int colorNr = ImageActivity.colorNr;
 
+            /* Print resultaten van berekeningen */
+            paint.setColor(Color.BLACK);
             canvas.drawText("0", left - 50, bottom + 50, paint);
             canvas.drawText("255", right + 20, bottom + 50, paint);
             canvas.drawText("Median: " + median[colorNr], left - 50, top - 130, paint);
@@ -153,6 +166,7 @@ public class ImageDisplayView extends View implements ImageListener {
                     break;
             }
 
+            /* Bin gegevens */
             int binsNr = ImageActivity.binsNr;
             int[] bins = new int[binsNr];
             double binSize = 255 / binsNr;
@@ -198,6 +212,10 @@ public class ImageDisplayView extends View implements ImageListener {
     /*** Source selection ***/
 
     private ImageSource source = null;
+
+    public void doCalculations(int pixels) {
+
+    }
 
     public void setImageSource(ImageSource source) {
         if (this.source != null) {
