@@ -142,10 +142,9 @@ public class ImageDisplayView extends View implements ImageListener {
 
             canvas.drawText("0", left - 50, bottom + 50, paint);
             canvas.drawText("255", right + 20, bottom + 50, paint);
-            canvas.drawText("Median: " + median[1], left - 50, top - 130, paint);
-            canvas.drawText("Mean: " + mean[1], left - 50, top - 85, paint);
-            canvas.drawText("Standard deviation: " + (int)(deviation[1]), left - 50, top - 40, paint);
-            canvas.drawText("Color: " + colorNames[colorNr], left - 50, top, paint);
+            canvas.drawText("Median: " + median[colorNr], left - 50, top - 130, paint);
+            canvas.drawText("Mean: " + mean[colorNr], left - 50, top - 85, paint);
+            canvas.drawText("Standard deviation: " + (int)(deviation[colorNr]), left - 50, top - 40, paint);
 
             /* Kleur om te bekijken in grafiek */
             int[] graphColor = new int[pixels];
