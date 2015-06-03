@@ -67,6 +67,11 @@ public class ImageDisplayView extends View implements ImageListener {
         if (this.currentImage != null) {
             int pixels = this.imageWidth * this.imageHeight;
 
+            String[] colorNames= new String[3];
+            colorNames[0] = "RED";
+            colorNames[1] = "GREEN";
+            colorNames[2] = "BLUE";
+
             int[] redColor     = new int[pixels];
             int[] greenColor   = new int[pixels];
             int[] blueColor    = new int[pixels];
@@ -89,16 +94,19 @@ public class ImageDisplayView extends View implements ImageListener {
                 totalColor[2] = totalColor[2] + blueColor[i];
             }
 
-            /* Mean berekenen */
-            mean[0] = totalColor[0] / pixels;
-            mean[1] = totalColor[1] / pixels;
-            mean[2] = totalColor[2] / pixels;
-
-            /* Arrays sorteren & mediaan berekenen */
+            /* Arrays sorteren   */
 
             Arrays.sort(redColor);
             Arrays.sort(greenColor);
             Arrays.sort(blueColor);
+
+            /* Mean  berekenen */
+
+            for (int i = 0; i < 3; i++) {
+                mean[i] = totalColor[i] / pixels;
+            }
+
+            /* mediaan berekenen */
 
             median[0] = redColor[pixels / 2];
             median[1] = greenColor[pixels / 2];
@@ -112,9 +120,9 @@ public class ImageDisplayView extends View implements ImageListener {
                 deviationsTotal[2] += Math.pow(blueColor[i] - mean[2], 2);
             }
 
-            deviation[0] = Math.sqrt(deviationsTotal[0] / pixels);
-            deviation[1] = Math.sqrt(deviationsTotal[1] / pixels);
-            deviation[2] = Math.sqrt(deviationsTotal[2] / pixels);
+            for (int i = 0; i < 3; i++) {
+                deviation[i] = Math.sqrt(deviationsTotal[i] / pixels);
+            }
 
             /* Center the image... */
             int left = 100;
@@ -130,13 +138,31 @@ public class ImageDisplayView extends View implements ImageListener {
             canvas.drawLine(left, top, left, bottom, paint);
             canvas.drawLine(left, bottom, right, bottom, paint);
 
-            int colorNr = ImageActivity.colorNr;
+            int colorNr = 2;
 
             canvas.drawText("0", left - 50, bottom + 50, paint);
             canvas.drawText("255", right + 20, bottom + 50, paint);
             canvas.drawText("Median: " + median[1], left - 50, top - 130, paint);
             canvas.drawText("Mean: " + mean[1], left - 50, top - 85, paint);
             canvas.drawText("Standard deviation: " + (int)(deviation[1]), left - 50, top - 40, paint);
+            canvas.drawText("Color: " + colorNames[colorNr], left - 50, top, paint);
+
+            /* Kleur om te bekijken in grafiek */
+            int[] graphColor = new int[pixels];
+
+            switch(colorNr) {
+                case 0:
+                    graphColor = redColor;
+                    break;
+                case 1:
+                    graphColor = greenColor;
+                    break;
+                case 2:
+                    graphColor = blueColor;
+                    break;
+                default:
+                    break;
+            }
 
             int binsNr = ImageActivity.binsNr;
             int[] bins = new int[binsNr];
@@ -145,7 +171,7 @@ public class ImageDisplayView extends View implements ImageListener {
 
             int nr = 0;
             for (int i = 0; i < binsNr; i++) {
-                while (nr < pixels && greenColor[nr] <= i * binSize) {
+                while (nr < pixels && graphColor[nr] <= i * binSize) {
                     bins[i]++;
                     nr++;
                 }
@@ -160,9 +186,12 @@ public class ImageDisplayView extends View implements ImageListener {
 
             double binHeight = (double)(bottom - top) / maxValueBin;
 
+            int[] colors   = new int[3];
+            colors[0] = Color.RED;
+            colors[1] = Color.GREEN;
+            colors[2] = Color.BLUE;
 
-            Color[] colors    = new Color[3];
-
+            paint.setColor(colors[colorNr]);
             /* paint.setColor(colors[1]); */
 
             for (int i = 0; i < binsNr; i++) {
