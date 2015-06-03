@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -56,17 +57,22 @@ public class ImageActivity extends Activity {
 
         Spinner sourceSpinner = (Spinner)this.findViewById(R.id.source_spinner);
 
+        /* Initialiseer de slider */
         SeekBar seekBar = (SeekBar)this.findViewById(R.id.seekBar);
         seekBar.setProgress(10);
 
         final TextView textBins = (TextView)this.findViewById(R.id.textBins);
+        final int minimumBins = 3;
 
         seekBar.setOnSeekBarChangeListener (
                 new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                        binsNr = i;
-                        textBins.setText("Number of bins: " + Integer.toString(i));
+
+                        if (i >= minimumBins) {
+                            binsNr = i;
+                            textBins.setText("Number of bins: " + Integer.toString(i));
+                        }
                     }
 
                     @Override
@@ -128,6 +134,22 @@ public class ImageActivity extends Activity {
 
         /* Select the back camera as default source: */
         sourceSpinner.setSelection(SOURCE_BACK_CAMERA);
+    }
+
+    public void onColorButtonClicked(View button) {
+        switch(button.getId()) {
+            case R.id.red:
+                colorNr = 0;
+                break;
+
+            case R.id.green:
+                colorNr = 1;
+                break;
+
+            case R.id.blue:
+                colorNr = 2;
+                break;
+        }
     }
 
     private void switchToCamera() {
