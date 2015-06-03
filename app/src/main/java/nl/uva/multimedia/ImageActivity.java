@@ -38,6 +38,7 @@ public class ImageActivity extends Activity {
     private FileImageSource fis;
 
     public static int binsNr = 10;
+    public static int colorNr = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
