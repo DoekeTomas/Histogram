@@ -67,11 +67,6 @@ public class ImageDisplayView extends View implements ImageListener {
         if (this.currentImage != null) {
             int pixels = this.imageWidth * this.imageHeight;
 
-            String[] colorNames= new String[3];
-            colorNames[0] = "RED";
-            colorNames[1] = "GREEN";
-            colorNames[2] = "BLUE";
-
             int[] redColor     = new int[pixels];
             int[] greenColor   = new int[pixels];
             int[] blueColor    = new int[pixels];
@@ -145,7 +140,6 @@ public class ImageDisplayView extends View implements ImageListener {
             canvas.drawText("Median: " + median[1], left - 50, top - 130, paint);
             canvas.drawText("Mean: " + mean[1], left - 50, top - 85, paint);
             canvas.drawText("Standard deviation: " + (int)(deviation[1]), left - 50, top - 40, paint);
-            canvas.drawText("Color: " + colorNames[colorNr], left - 50, top, paint);
 
             /* Kleur om te bekijken in grafiek */
             int[] graphColor = new int[pixels];
