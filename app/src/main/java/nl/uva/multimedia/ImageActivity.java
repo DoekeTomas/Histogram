@@ -73,6 +73,10 @@ public class ImageActivity extends Activity {
                             binsNr = i;
                             textBins.setText("Number of bins: " + Integer.toString(i));
                         }
+                        else {
+                            binsNr = 3;
+                            textBins.setText("Number of bins: 3");
+                        }
                     }
 
                     @Override
