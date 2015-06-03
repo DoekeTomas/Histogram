@@ -50,6 +50,7 @@ public class ImageActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_image);
+        final ImageDisplayView imageView = (ImageDisplayView)findViewById(R.id.display_view);
 
         /* Create sources: */
         this.cis = new CameraImageSource(this);
@@ -77,6 +78,8 @@ public class ImageActivity extends Activity {
                             binsNr = 3;
                             textBins.setText("Number of bins: 3");
                         }
+
+                        imageView.invalidate();
                     }
 
                     @Override
@@ -141,6 +144,8 @@ public class ImageActivity extends Activity {
     }
 
     public void onColorButtonClicked(View button) {
+        final ImageDisplayView imageView = (ImageDisplayView)findViewById(R.id.display_view);
+
         switch(button.getId()) {
             case R.id.red:
                 colorNr = 0;
@@ -154,6 +159,8 @@ public class ImageActivity extends Activity {
                 colorNr = 2;
                 break;
         }
+
+        imageView.invalidate();
     }
 
     private void switchToCamera() {
