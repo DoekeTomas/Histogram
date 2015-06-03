@@ -78,7 +78,7 @@ public class ImageDisplayView extends View implements ImageListener {
             double[] deviation    = new double[3];
 
 
-            // Maak een array van de groen intensiteit per pixel
+            /* Zet alle pixels in array & berekent totale kleurwaardes */
             for (int i = 0; i < pixels; i++) {
                 redColor[i]     = Color.red(this.currentImage[i]);
                 greenColor[i]   = Color.green(this.currentImage[i]);
@@ -101,7 +101,7 @@ public class ImageDisplayView extends View implements ImageListener {
                 mean[i] = totalColor[i] / pixels;
             }
 
-            /* mediaan berekenen */
+            /* Mediaan berekenen */
 
             median[0] = redColor[pixels / 2];
             median[1] = greenColor[pixels / 2];
@@ -137,9 +137,9 @@ public class ImageDisplayView extends View implements ImageListener {
 
             canvas.drawText("0", left - 50, bottom + 50, paint);
             canvas.drawText("255", right + 20, bottom + 50, paint);
-            canvas.drawText("Median: " + median[1], left - 50, top - 130, paint);
-            canvas.drawText("Mean: " + mean[1], left - 50, top - 85, paint);
-            canvas.drawText("Standard deviation: " + (int)(deviation[1]), left - 50, top - 40, paint);
+            canvas.drawText("Median: " + median[colorNr], left - 50, top - 130, paint);
+            canvas.drawText("Mean: " + mean[colorNr], left - 50, top - 85, paint);
+            canvas.drawText("Standard deviation: " + (int)(deviation[colorNr]), left - 50, top - 40, paint);
 
             /* Kleur om te bekijken in grafiek */
             int[] graphColor = new int[pixels];
@@ -171,23 +171,26 @@ public class ImageDisplayView extends View implements ImageListener {
                 }
             }
 
+            /* Berekent hoogte van grootste staaf */
             int maxValueBin = 0;
             for (int i = 0; i < binsNr; i++) {
                 if (bins[i] > maxValueBin) {
                     maxValueBin = bins[i];
                 }
+
             }
 
             double binHeight = (double)(bottom - top) / maxValueBin;
 
+            /* Zet kleur van de staven */
             int[] colors   = new int[3];
             colors[0] = Color.RED;
             colors[1] = Color.GREEN;
             colors[2] = Color.BLUE;
 
             paint.setColor(colors[colorNr]);
-            /* paint.setColor(colors[1]); */
 
+            /* Tekent histogram */
             for (int i = 0; i < binsNr; i++) {
                 paint.setStrokeWidth(0);
                 canvas.drawRect((left+1) + (i * binWidth), (float)((bottom) - (bins[i] * binHeight)),
