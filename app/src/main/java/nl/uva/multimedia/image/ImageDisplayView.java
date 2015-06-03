@@ -138,7 +138,7 @@ public class ImageDisplayView extends View implements ImageListener {
             canvas.drawLine(left, top, left, bottom, paint);
             canvas.drawLine(left, bottom, right, bottom, paint);
 
-            int colorNr = 2;
+            int colorNr = ImageActivity.colorNr;
 
             canvas.drawText("0", left - 50, bottom + 50, paint);
             canvas.drawText("255", right + 20, bottom + 50, paint);
