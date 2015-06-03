@@ -60,13 +60,6 @@ public class ImageActivity extends Activity {
 
         final TextView textBins = (TextView)this.findViewById(R.id.textBins);
 
-        /*
-        final TextView textValues = (TextView)this.findViewById(R.id.textValues);
-        textValues.setText("Median: " + median[1] +
-                ", Mean: " + mean[1] +
-                ", Standard deviation: " + deviation[1]);
-        */
-
         seekBar.setOnSeekBarChangeListener (
                 new SeekBar.OnSeekBarChangeListener() {
                     @Override

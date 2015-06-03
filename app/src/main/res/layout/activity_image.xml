@@ -16,34 +16,29 @@
         android:layout_gravity="center_horizontal">
 
         <RadioButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Red"
             android:id="@+id/radioButton"
-            android:checked="false" />
+            android:checked="false"
+            android:layout_weight="1" />
 
         <RadioButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Green"
             android:id="@+id/radioButton2"
-            android:checked="false" />
+            android:checked="false"
+            android:layout_weight="1" />
 
         <RadioButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Blue"
             android:id="@+id/radioButton3"
-            android:checked="false" />
+            android:checked="false"
+            android:layout_weight="1" />
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Median: 0, Mean: 0, Standard Deviation: 0"
-        android:id="@+id/textValues"
-        android:layout_gravity="center_horizontal" />
 
     <nl.uva.multimedia.image.ImageDisplayView
         android:id="@+id/display_view"
